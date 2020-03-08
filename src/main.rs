@@ -126,9 +126,9 @@ impl Card {
         println!("    {}", "_".repeat(card_width));
         println!("   /{}", self.read());
         println!("12/ {}", rows[0].iter().collect::<String>());
-        println!("11|  {}", rows[1].iter().collect::<String>());
+        println!("11| {}", rows[1].iter().collect::<String>());
         for (index, row) in rows[2..].iter().enumerate() {
-            println!(" {}|  {}", index, row.iter().collect::<String>());
+            println!(" {}| {}", index, row.iter().collect::<String>());
         }
         println!("  |__{}", "_".repeat(card_width));
     }
