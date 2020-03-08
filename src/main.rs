@@ -37,59 +37,6 @@ impl Charset {
         let enc_map = charset_file.charmap.to_owned();
         let dec_map = enc_map.iter().map(|(k, v)| (v.to_owned(), k.to_owned())).collect();
         Self { on_char: charset_file.on_char, off_char: charset_file.off_char, enc_map: charset_file.charmap.to_owned(), dec_map }
-        /*
-        //                  12 11  0  1  2  3  4  5  6  7  8  9
-        enc_map.insert(' ', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('&', [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('-', [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('0', [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('1', [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('2', [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('3', [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('4', [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]);
-        enc_map.insert('5', [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]);
-        enc_map.insert('6', [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]);
-        enc_map.insert('7', [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]);
-        enc_map.insert('8', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]);
-        enc_map.insert('9', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
-
-        //                  12 11  0  1  2  3  4  5  6  7  8  9
-        enc_map.insert('A', [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('B', [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('C', [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('D', [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]);
-        enc_map.insert('E', [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]);
-        enc_map.insert('F', [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]);
-        enc_map.insert('G', [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]);
-        enc_map.insert('H', [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]);
-        enc_map.insert('I', [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
-
-        //                  12 11  0  1  2  3  4  5  6  7  8  9
-        enc_map.insert('J', [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('K', [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('L', [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('M', [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]);
-        enc_map.insert('N', [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]);
-        enc_map.insert('O', [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]);
-        enc_map.insert('P', [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]);
-        enc_map.insert('Q', [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]);
-        enc_map.insert('R', [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
-
-        //                  12 11  0  1  2  3  4  5  6  7  8  9
-        enc_map.insert('/', [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('S', [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('T', [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0]);
-        enc_map.insert('U', [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0]);
-        enc_map.insert('V', [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0]);
-        enc_map.insert('W', [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]);
-        enc_map.insert('X', [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0]);
-        enc_map.insert('Y', [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0]);
-        enc_map.insert('Z', [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]);
-
-
-        let dec_map = charmap.iter().map(|(k, v)| (v.to_owned(), k.to_owned())).collect();
-        Self { enc_map, dec_map, on_char: 'O', off_char: ' ' }
-        */
     }
 
     fn encode(&self, k: char) -> Column {
