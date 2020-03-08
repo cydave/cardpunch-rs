@@ -130,7 +130,7 @@ impl Card {
         for (index, row) in rows[2..].iter().enumerate() {
             println!(" {}| {}", index, row.iter().collect::<String>());
         }
-        println!("  |__{}", "_".repeat(card_width));
+        println!("  |_{}", "_".repeat(card_width));
     }
 }
 
