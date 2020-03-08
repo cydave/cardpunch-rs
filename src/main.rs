@@ -21,7 +21,7 @@ impl CharsetFile {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Charset {
     on_char: char,
     off_char: char,
@@ -60,6 +60,29 @@ impl Charset {
     }
 }
 
+struct PunchMachine {
+    charset: Charset,
+}
+
+impl PunchMachine {
+    fn new(charset: Charset) -> Self {
+        Self { charset }
+    }
+
+    fn punch_char(&self, c: char, card: &mut Card) {
+        let column = self.charset.encode(c);
+        card.columns.push(column);
+    }
+
+    fn punch_str(&self, s: &str) -> Card {
+        let mut card = Card::new(self.charset.to_owned());
+        for c in s.chars() {
+            self.punch_char(c, &mut card);
+        }
+        card
+    }
+}
+
 #[derive(Debug)]
 struct Card {
     charset: Charset,
@@ -67,21 +90,10 @@ struct Card {
 }
 
 impl Card {
-    fn with_charset(charset: Charset) -> Self {
-        Card {
+    fn new(charset: Charset) -> Self {
+        Self {
             charset,
             columns: Vec::new(),
-        }
-    }
-
-    fn punch_char(&mut self, c: char) {
-        let column = self.charset.encode(c);
-        self.columns.push(column);
-    }
-
-    fn punch_str(&mut self, s: &str) {
-        for c in s.chars() {
-            self.punch_char(c);
         }
     }
 
@@ -99,8 +111,7 @@ impl Card {
             for column in self.columns.iter() {
                 let c: char = match column[i] {
                     1 => self.charset.on_char,
-                    0 => self.charset.off_char,
-                    _ => self.charset.on_char,
+                    _ => self.charset.off_char,
                 };
                 row.push(c);
             }
@@ -125,7 +136,7 @@ impl Card {
 
 fn main() {
     let charset = Charset::from_file("./charsets/example.json");
-    let mut card = Card::with_charset(charset);
-    card.punch_str("RUST CARD PUNCH IS A THING NOW!!111 \\O/");
+    let machine = PunchMachine::new(charset);
+    let card = machine.punch_str("RUST CARD PUNCH IS A THING NOW!!111 \\O/");
     card.print();
 }
