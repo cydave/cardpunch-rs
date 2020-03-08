@@ -23,3 +23,6 @@ $ cargo run
  9|  o      o        o      o               
   |__________________________________________
 ```
+
+
+*ASCII art and charset stolen from https://homepage.divms.uiowa.edu/~jones/cards/codes.html*
